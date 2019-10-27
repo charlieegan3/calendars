@@ -1,9 +1,10 @@
-FROM golang:1.10 as build
+FROM golang:1.13 as build
 
 WORKDIR /go/src/github.com/charlieegan3/calendars
 
 COPY . .
 
+RUN go mod vendor
 RUN CGO_ENABLED=0 go build -o calendars main.go
 
 
