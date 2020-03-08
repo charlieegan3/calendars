@@ -1,0 +1,14 @@
+FROM golang:1.13 as build
+
+WORKDIR /go/src/github.com/charlieegan3/calendars
+
+COPY . .
+
+RUN go mod vendor
+RUN GOOS=linux GOARCH=arm go build -o calendars main.go
+
+
+FROM arm32v7/alpine:3.9
+COPY --from=build /go/src/github.com/charlieegan3/calendars/calendars /
+
+CMD ["/calendars"]
